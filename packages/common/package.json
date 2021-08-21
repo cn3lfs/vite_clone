@@ -1,0 +1,16 @@
+{
+  "name": "common",
+  "packageManager": "yarn@3.0.1",
+  "private": true,
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.4",
+    "lodash-es": "^4.17.21",
+    "typescript": "^4.3.5"
+  }
+}
