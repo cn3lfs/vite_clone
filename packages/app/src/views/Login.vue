@@ -19,7 +19,6 @@ const handleLogin = () => {
   login(form).then((res) => {
     localStorage.setItem("Authorization", res.access_token);
     localStorage.setItem("userName", res.userName);
-    localStorage.setItem("depart", res.depart);
 
     router.push({ path: "/home" });
   });

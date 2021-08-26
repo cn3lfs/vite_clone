@@ -13,6 +13,7 @@ const errorHandler = function (error) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
     if (error.response.status === 401) {
+      localStorage.setItem("Authorization", "");
       router.push({ path: "/login" });
     }
     // console.log(error.response.status);
@@ -31,22 +32,23 @@ const errorHandler = function (error) {
   // return {some: 'data'};
 };
 
-export const request = extend({
+export const umiRequest = extend({
   prefix: "http://192.168.100.221",
   timeout: 10000,
   errorHandler,
 });
 
 // Same as the last one
-request.interceptors.request.use(
+umiRequest.interceptors.request.use(
   (url, options) => {
     if (!options.headers) {
       options.headers = {};
     }
 
     // Do something before request is sent
-    // 登录接口
-    if (!url.includes("login")) {
+
+    if (url.includes("/basic/oauth/token")) {
+      // 登录接口
       options.headers["Authorization"] = AUTH_TOKEN;
     } else {
       if (localStorage.getItem("Authorization")) {
@@ -67,7 +69,7 @@ request.interceptors.request.use(
 );
 
 // handling error in response interceptor
-request.interceptors.response.use((response) => {
+umiRequest.interceptors.response.use((response) => {
   const codeMaps = {
     502: "网关错误。",
     503: "服务不可用，服务器暂时过载或维护。",
@@ -78,3 +80,8 @@ request.interceptors.response.use((response) => {
   }
   return response;
 });
+
+// 兼容axios
+export const request = (config) => {
+  return umiRequest(config.url, config);
+};

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import VMenu from "./VMenu.vue";
 import VHeader from "./VHeader.vue";
 import VMain from "./VMain.vue";
@@ -23,8 +23,9 @@ import VMain from "./VMain.vue";
   display: flex;
 
   .md-v-left {
-    width: 200px;
+    width: 210px;
     height: 100vh;
+    flex-shrink: 0;
   }
 
   .md-v-right {
