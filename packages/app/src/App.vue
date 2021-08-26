@@ -1,13 +1,7 @@
-<script>
-import { concatArray } from "common";
-export default {
-  setup() {
-    return {
-      array: concatArray(),
-    };
-  },
-};
+<script setup>
+import VLayout from "@/components/VLayout.vue";
 </script>
+
 <template>
-  <h1>{{ array }}</h1>
+  <VLayout />
 </template>

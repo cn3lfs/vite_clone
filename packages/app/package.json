@@ -2,20 +2,37 @@
   "name": "app",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "bootstrap": "5.0.2",
     "common": "*",
-    "vue": "^3.0.5"
+    "element-plus": "latest",
+    "lodash-es": "^4.17.21",
+    "qs": "^6.10.1",
+    "umi-request": "^1.3.9",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "@vitejs/plugin-vue": "^1.3.0",
+    "@vitejs/plugin-vue-jsx": "^1.1.7",
     "@vue/compiler-sfc": "^3.0.5",
-    "sass": "^1.38.0",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.0.0",
+    "prettier": "^2.3.2",
+    "sass": "^1.38.1",
     "typescript": "^4.3.5",
     "vite": "^2.4.4",
+    "vite-plugin-eslint": "^1.3.0",
     "vue-tsc": "^0.2.2"
   }
 }
