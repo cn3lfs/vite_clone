@@ -12,10 +12,21 @@ const errorHandler = function (error) {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    if (error.response.status === 401) {
+    if (error.response.status === 400) {
+      const data = error.response.data;
+      const msg = data?.message || data?.notifyMessage;
+      if (msg) {
+        ElMessage.error(msg);
+      }
+    }
+    if (error.response.status === 401 || error.response.status === 403) {
       localStorage.setItem("Authorization", "");
       router.push({ path: "/login" });
     }
+    if (error.response.status === 500) {
+      ElMessage.error(error.data.message);
+    }
+
     // console.log(error.response.status);
     // console.log(error.response.headers);
     // console.log(error.data);
@@ -69,7 +80,7 @@ umiRequest.interceptors.request.use(
 );
 
 // handling error in response interceptor
-umiRequest.interceptors.response.use((response) => {
+umiRequest.interceptors.response.use(async (response) => {
   const codeMaps = {
     502: "网关错误。",
     503: "服务不可用，服务器暂时过载或维护。",
@@ -77,6 +88,16 @@ umiRequest.interceptors.response.use((response) => {
   };
   if (response.status in codeMaps) {
     ElMessage.error(codeMaps[response.status]);
+  } else if (response.status === 200) {
+    const data = await response.clone().json();
+    const msg = data?.message || data?.notifyMessage;
+    if (msg) {
+      if (data.code !== "0001") {
+        ElMessage.success(msg);
+      } else {
+        ElMessage.error(msg);
+      }
+    }
   }
   return response;
 });
@@ -85,3 +106,5 @@ umiRequest.interceptors.response.use((response) => {
 export const request = (config) => {
   return umiRequest(config.url, config);
 };
+
+export default request;

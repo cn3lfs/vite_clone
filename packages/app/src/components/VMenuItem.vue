@@ -25,7 +25,6 @@ function canRecurse(menu: MenuItem) {
     :index="menu.path"
     :show-timeout="0"
     :hide-timeout="0"
-    popper-append-to-body
   >
     <template #title>
       <el-icon v-if="menu.parentId === -1" class="menu-icon" :size="iconSize">

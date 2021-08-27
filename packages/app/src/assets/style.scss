@@ -1,3 +1,6 @@
+// 配置 bootstrap
+@import "custom";
+@import "bootstrap/scss/bootstrap";
 // 覆盖bootstrap的a标签样式
 a {
   color: unset;

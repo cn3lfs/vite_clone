@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 
 const userName = computed(() => localStorage.getItem("userName"));
@@ -17,10 +17,14 @@ const userName = computed(() => localStorage.getItem("userName"));
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <router-link :to="{ path: '/home' }">首页</router-link>
+              <span class="v-header-list-item">
+                <router-link :to="{ path: '/home' }">首页</router-link>
+              </span>
             </el-dropdown-item>
             <el-dropdown-item>
-              <router-link :to="{ path: '/login' }">退出登录</router-link>
+              <span class="v-header-list-item">
+                <router-link :to="{ path: '/login' }">退出登录</router-link>
+              </span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -29,16 +33,16 @@ const userName = computed(() => localStorage.getItem("userName"));
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .md-v-header {
-  height: 60px;
+  height: 54px;
   text-align: center;
   background: #57c7d4;
   position: relative;
 
   .v-header-title {
     color: #fff;
-    line-height: 60px;
+    line-height: 54px;
     font-size: 22px;
   }
 
@@ -46,11 +50,14 @@ const userName = computed(() => localStorage.getItem("userName"));
     position: absolute;
     top: 0;
     right: 0;
-    line-height: 60px;
+    line-height: 54px;
     .el-dropdown-link {
       color: #fff;
       font-size: 22px;
     }
   }
+}
+.el-dropdown-menu__item {
+  min-width: 100px;
 }
 </style>

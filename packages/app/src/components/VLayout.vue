@@ -21,17 +21,21 @@ import VMain from "./VMain.vue";
 <style lang="scss" scoped>
 .md-v-container {
   display: flex;
+  height: 100vh;
 
   .md-v-left {
     width: 210px;
-    height: 100vh;
+    height: 100%;
     flex-shrink: 0;
   }
 
   .md-v-right {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    overflow: auto;
   }
 }
 </style>

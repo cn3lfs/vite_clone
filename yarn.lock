@@ -1271,12 +1271,16 @@ __metadata:
     axios: ^0.21.1
     bootstrap: 5.0.2
     common: "*"
+    dayjs: ^1.10.6
     element-plus: latest
     eslint: ^6.7.2
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-vue: ^7.0.0
+    jquery: ^3.6.0
     lodash-es: ^4.17.21
+    mitt: ^3.0.0
+    popper.js: ^1.16.1
     prettier: ^2.3.2
     qs: ^6.10.1
     sass: ^1.38.1
@@ -1905,7 +1909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:1.x":
+"dayjs@npm:1.x, dayjs@npm:^1.10.6":
   version: 1.10.6
   resolution: "dayjs@npm:1.10.6::__archiveUrl=https%3A%2F%2Fregistry.nlark.com%2Fdayjs%2Fdownload%2Fdayjs-1.10.6.tgz"
   checksum: a79af6d19cf1e3aefc231e480037b37df50701e8d0cdbe1736fc6665b7045a159777215c5c8dd42ede7dd3c4c4f4a174d4ddd5bffca51df2a4ba0e0e25a6163c
@@ -3466,6 +3470,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"jquery@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "jquery@npm:3.6.0::__archiveUrl=https%3A%2F%2Fregistry.nlark.com%2Fjquery%2Fdownload%2Fjquery-3.6.0.tgz"
+  checksum: 8fd5fef4aa48fd374ec716dd1c1df1af407814a228e15c1260ca140de3a697c2a77c30c54ff1d238b6a3ab4ddc445ddeef9adce6c6d28e4869d85eb9d3951c0e
+  languageName: node
+  linkType: hard
+
 "js-stringify@npm:^1.0.2":
   version: 1.0.2
   resolution: "js-stringify@npm:1.0.2::__archiveUrl=https%3A%2F%2Fregistry.nlark.com%2Fjs-stringify%2Fdownload%2Fjs-stringify-1.0.2.tgz"
@@ -4024,6 +4035,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"mitt@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "mitt@npm:3.0.0::__archiveUrl=https%3A%2F%2Fregistry.nlark.com%2Fmitt%2Fdownload%2Fmitt-3.0.0.tgz"
+  checksum: f7be5049d27d18b1dbe9408452d66376fa60ae4a79fe9319869d1b90ae8cbaedadc7e9dab30b32d781411256d468be5538996bb7368941c09009ef6bbfa6bfc7
+  languageName: node
+  linkType: hard
+
 "mkdirp@npm:^0.5.1":
   version: 0.5.5
   resolution: "mkdirp@npm:0.5.5::__archiveUrl=https%3A%2F%2Fregistry.npm.taobao.org%2Fmkdirp%2Fdownload%2Fmkdirp-0.5.5.tgz"
@@ -4481,6 +4499,13 @@ fsevents@~2.3.2:
   version: 7.0.0
   resolution: "pluralize@npm:7.0.0::__archiveUrl=https%3A%2F%2Fregistry.nlark.com%2Fpluralize%2Fdownload%2Fpluralize-7.0.0.tgz"
   checksum: e3f694924b7c8c03dc9fa40b2312e17787998ac6e20fccace11efa1146046eb9931541bfd247b3ec5535e730d902a5aee7c32681d5bf9a00fc74a72039a3e609
+  languageName: node
+  linkType: hard
+
+"popper.js@npm:^1.16.1":
+  version: 1.16.1
+  resolution: "popper.js@npm:1.16.1::__archiveUrl=https%3A%2F%2Fregistry.nlark.com%2Fpopper.js%2Fdownload%2Fpopper.js-1.16.1.tgz"
+  checksum: c56ae5001ec50a77ee297a8061a0221d99d25c7348d2e6bcd3e45a0d0f32a1fd81bca29d46cb0d4bdf13efb77685bd6a0ce93f9eb3c608311a461f945fffedbe
   languageName: node
   linkType: hard
 

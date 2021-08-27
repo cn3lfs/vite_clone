@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import VNotFound from "../components/VNotFound.vue";
+import VLayoutEmpty from "../components/VLayoutEmpty.vue";
 import { addMiddleWare } from "./middleware";
 
 // 不使用 VLayout 布局
@@ -34,6 +35,25 @@ const asyncRoutes: Array<RouteRecordRaw> = [
     meta: {
       title: "关于",
     },
+  },
+  {
+    path: "/baseManager",
+    name: "baseManager",
+    component: VLayoutEmpty,
+    meta: {
+      title: "权限管理系统",
+    },
+    children: [
+      {
+        path: "userManager",
+        name: "userManager",
+        component: () =>
+          import("../views/pmsPc/baseManager/userManager/index.vue"),
+        meta: {
+          title: "用户管理",
+        },
+      },
+    ],
   },
   // will match everything and put it under `$route.params.pathMatch`
   { path: "/:pathMatch(.*)*", name: "NotFound", component: VNotFound },
