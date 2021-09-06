@@ -1,4 +1,4 @@
-import { request } from "@/utils/request";
+import { request } from "../utils/request";
 
 export const login = (params) => {
   return request({
@@ -64,10 +64,74 @@ export function getDeparts() {
   });
 }
 
+export function getDepart(id) {
+  return request({
+    url: "/basic/admin/null/depart/" + id,
+    method: "get",
+  });
+}
+
+export function addDepart(data) {
+  return request({
+    url: "/basic/admin/null/depart",
+    method: "post",
+    data,
+  });
+}
+
+export function updateDepart(id, data) {
+  return request({
+    url: "/basic/admin/null/depart/" + id,
+    method: "put",
+    data,
+  });
+}
+
+export function deleteDepart(id) {
+  return request({
+    url: "/basic/admin/null/depart/" + id,
+    method: "delete",
+  });
+}
+
+export function getUsersByDepart(departId: string, name: string) {
+  return request({
+    url: "/basic/admin/null/depart/user",
+    method: "get",
+    params: {
+      departId,
+      name,
+    },
+  });
+}
+
+export function deleteUsersDepart(data) {
+  return request({
+    url: "/basic/admin/null/depart/user",
+    method: "delete",
+    params: data,
+  });
+}
+
+export function addUsersDepart(data) {
+  return request({
+    url: "/basic/admin/null/depart/user",
+    method: "post",
+    params: data,
+  });
+}
+
 export function bindingCard(data) {
   return request({
     url: "/basic/admin/null/user/editCard",
     method: "post",
     data,
+  });
+}
+
+export function getDictValue(code) {
+  return request({
+    url: "/basic/dict/dictValue/type/" + code,
+    method: "get",
   });
 }

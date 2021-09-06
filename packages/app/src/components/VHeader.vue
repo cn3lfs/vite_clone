@@ -17,14 +17,14 @@ const userName = computed(() => localStorage.getItem("userName"));
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <span class="v-header-list-item">
-                <router-link :to="{ path: '/home' }">首页</router-link>
-              </span>
+              <router-link :to="{ path: '/home' }">
+                <div class="v-header-list-item">首页</div>
+              </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
-              <span class="v-header-list-item">
-                <router-link :to="{ path: '/login' }">退出登录</router-link>
-              </span>
+              <router-link :to="{ path: '/login' }">
+                <div class="v-header-list-item">退出登录</div>
+              </router-link>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -59,5 +59,10 @@ const userName = computed(() => localStorage.getItem("userName"));
 }
 .el-dropdown-menu__item {
   min-width: 100px;
+}
+
+.v-header-list-item {
+  height: 40px;
+  width: 100%;
 }
 </style>

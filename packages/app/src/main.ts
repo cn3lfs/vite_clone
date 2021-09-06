@@ -9,6 +9,8 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";
 import "./assets/style.scss";
 // 注册 icons
 import ElSvg from "./plugin/ElSvg";
+// 注册全局组件
+import GlobalComponent from "./plugin/GlobalComponent";
 // 配置mitt
 import mitt from "mitt";
 const emitter = mitt();
@@ -21,6 +23,7 @@ app.use(ElementPlus, {
   locale: zhCn,
 });
 app.use(ElSvg);
+app.use(GlobalComponent);
 
 app.use(router);
 app.use(store);

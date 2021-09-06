@@ -53,6 +53,15 @@ const asyncRoutes: Array<RouteRecordRaw> = [
           title: "用户管理",
         },
       },
+      {
+        path: "departManager",
+        name: "departManager",
+        component: () =>
+          import("../views/pmsPc/baseManager/departManager/index.vue"),
+        meta: {
+          title: "部门管理",
+        },
+      },
     ],
   },
   // will match everything and put it under `$route.params.pathMatch`

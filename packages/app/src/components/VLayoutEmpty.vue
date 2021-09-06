@@ -6,6 +6,6 @@
 
 <style lang="scss">
 .md-v-container-empty {
-  padding: 20px;
+  padding: 15px;
 }
 </style>

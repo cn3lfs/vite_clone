@@ -4,4 +4,9 @@
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.md-v-main {
+  height: calc(100% - 54px);
+  overflow: auto;
+}
+</style>

@@ -9,7 +9,7 @@
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "axios": "^0.21.1",
-    "bootstrap": "5.0.2",
+    "bootstrap": "^5.1.0",
     "common": "*",
     "dayjs": "^1.10.6",
     "element-plus": "latest",

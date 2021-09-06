@@ -26,7 +26,7 @@ import VMain from "./VMain.vue";
   .md-v-left {
     width: 210px;
     height: 100%;
-    flex-shrink: 0;
+    flex: 0 0 210px;
   }
 
   .md-v-right {

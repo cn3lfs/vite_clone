@@ -23,6 +23,7 @@ const formInline = reactive({
 });
 
 const tableData = ref([]);
+const total = ref(0);
 
 function handleSearch() {
   getUsers(formInline).then((res) => {
@@ -32,6 +33,7 @@ function handleSearch() {
       item.departId = item.departmentInfo.id;
       return item;
     });
+    total.value = res.data.total;
   });
 }
 
@@ -239,7 +241,12 @@ handleSearch();
 <template>
   <div>
     <div class="search-header">
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form
+        :inline="true"
+        :model="formInline"
+        class="demo-form-inline"
+        size="medium"
+      >
         <el-form-item label="姓名/账户:">
           <el-input v-model="formInline.name" clearable></el-input>
         </el-form-item>
@@ -262,16 +269,18 @@ handleSearch();
       </el-form>
     </div>
 
-    <el-table :data="tableData" border highlight-current-row>
+    <el-table class="mt-2" :data="tableData" border highlight-current-row>
       <el-table-column
         align="center"
         label="姓名"
         prop="name"
+        width="150"
       ></el-table-column>
       <el-table-column
         align="center"
         label="账户"
         prop="username"
+        width="150"
       ></el-table-column>
       <el-table-column
         align="center"
@@ -335,6 +344,13 @@ handleSearch();
         </template>
       </el-table-column>
     </el-table>
+
+    <Pagination
+      :total="total"
+      v-model:currentPage="formInline.page"
+      v-model:pageSize="formInline.limit"
+      @pagination="handleSearch"
+    />
 
     <el-dialog
       title="用户"
@@ -466,3 +482,9 @@ handleSearch();
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.search-header .el-form-item {
+  margin-bottom: 0;
+}
+</style>

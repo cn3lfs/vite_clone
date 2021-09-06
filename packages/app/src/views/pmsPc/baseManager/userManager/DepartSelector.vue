@@ -63,6 +63,7 @@ defineExpose({
       <div class="depart-select">
         <el-input
           v-model="filterText"
+          clearable
           placeholder="输入关键字进行过滤"
         ></el-input>
         <el-tree

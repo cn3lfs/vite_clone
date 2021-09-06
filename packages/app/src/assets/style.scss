@@ -6,3 +6,57 @@ a {
   color: unset;
   text-decoration: unset;
 }
+
+// override element ui default dialog close
+.el-dialog__headerbtn .el-dialog__close {
+  color: #545d5a;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.el-dialog__headerbtn {
+  top: 13px !important;
+}
+
+// element dialog
+.el-dialog__header {
+  background-color: rgba(196, 214, 236, 1);
+  padding: 12px !important;
+}
+.el-dialog__title {
+  font-weight: bold;
+  border-left: 4px solid #3399ff;
+  padding-left: 5px;
+}
+.el-dialog__footer {
+  background-color: rgba(244, 244, 244, 1);
+  padding: 10px !important;
+  text-align: center;
+}
+.el-collapse-item__header {
+  background: #d6dbe1;
+  height: 35px;
+}
+.el-collapse-item__content {
+  padding-bottom: 0;
+}
+
+.el-checkbox__inner {
+  zoom: 1.5;
+}
+
+.md-dialog.el-dialog {
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  // height: 600px;
+  max-height: calc(100% - 200px);
+  max-width: calc(100% - 30px);
+}
+.md-dialog.el-dialog .el-dialog__body {
+  flex: 1;
+  overflow: auto;
+}
