@@ -1,4 +1,4 @@
-import { extend } from "umi-request";
+import { extend, RequestOptionsWithoutResponse } from "umi-request";
 import router from "../router";
 import { ElMessage } from "element-plus";
 const AUTH_TOKEN = "Basic dnVlOnZ1ZQ==";
@@ -103,7 +103,7 @@ umiRequest.interceptors.response.use(async (response) => {
 });
 
 // 兼容axios
-export const request = (config) => {
+export const request = (config): Promise<any> => {
   return umiRequest(config.url, config);
 };
 

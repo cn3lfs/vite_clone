@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { ref, reactive, watchEffect } from "vue";
 import {
-  // 部门下用户
-  getUsersByDepart,
-  deleteUsersDepart,
-  addUsersDepart,
-  getUsers,
-  // 部门
-  getDeparts,
-  getDepart,
-  addDepart,
-  updateDepart,
-  deleteDepart,
-} from "@/api/user";
-import { getDictByCode } from "@/api/dict";
+  getDicts,
+  getDictTree,
+  // 字典key
+  addDictType,
+  getDictType,
+  putDictType,
+  delDictType,
+  // 字典值
+  addDictValue,
+  getDictValue,
+  delDictValue,
+  putDictValue,
+} from "@/api/dict";
 import { MessageConfirm, MessageSuccess, MessageError } from "@/utils/index";
 
 const filterText = ref("");
@@ -45,22 +45,12 @@ watchEffect(() => {
 });
 
 function getMainTree() {
-  getDeparts().then((data) => {
+  getDictTree().then((data) => {
     mainTreeData.value = data;
   });
 }
 
 getMainTree();
-
-const departTypeOptions = ref([]);
-
-function getDepartType() {
-  getDictByCode("org_depart").then((response) => {
-    departTypeOptions.value = response.data.rows;
-  });
-}
-
-getDepartType();
 
 const dialogVisibleDepart = ref(false);
 const mainTreeForm = ref({});
@@ -100,7 +90,7 @@ function onInit() {
     code: new Date().getTime() + "_tmp",
   };
 
-  addDepart(mainTreeForm.value).then(() => {
+  addDictType(mainTreeForm.value).then(() => {
     getMainTree();
     dialogVisibleDepart.value = false;
   });
@@ -108,7 +98,7 @@ function onInit() {
 function onEdit(node, data) {
   departAction.value = "update";
   dialogVisibleDepart.value = true;
-  getDepart(data.id).then((response) => {
+  getDictType(data.id).then((response) => {
     mainTreeForm.value = response.data;
   });
 }
@@ -127,7 +117,7 @@ function onRemove(node, data) {
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    deleteDepart(data.id).then(() => {
+    delDictType(data.id).then(() => {
       MessageSuccess("删除成功");
       getMainTree();
     });
@@ -135,13 +125,13 @@ function onRemove(node, data) {
 }
 function handleConfirmDepart() {
   if (departAction.value === "create") {
-    addDepart(mainTreeForm.value).then(() => {
+    addDictType(mainTreeForm.value).then(() => {
       getMainTree();
       dialogVisibleDepart.value = false;
     });
   }
   if (departAction.value === "update") {
-    updateDepart(currentTreeNode.value.id, mainTreeForm.value).then(() => {
+    putDictType(currentTreeNode.value.id, mainTreeForm.value).then(() => {
       getMainTree();
       dialogVisibleDepart.value = false;
     });
@@ -153,76 +143,89 @@ const dialogVisible = ref(false);
 const name = ref("");
 
 function handleSearch() {
-  getUsersByDepart(currentTreeNode.value.id, name.value).then((res) => {
+  getDicts(currentTreeNode.value.id).then((res) => {
     tableData.value = res.data.rows;
   });
 }
-function handleAdd() {
-  if (!currentTreeNode.value.id) {
-    MessageError("请先选择部门!!");
-    return;
-  }
-  dialogVisible.value = true;
-  getListUser();
-}
 
-function handleDelete(row) {
+const aDictValue = {
+  id: null,
+  orderNum: 1,
+  code: "",
+  value: "",
+  labelDefault: "",
+  labelEnUs: "",
+  labelZhCh: "",
+  parentId: null,
+  typeId: null,
+  remark: "",
+};
+const dictTypeForm = ref({
+  ...aDictValue,
+});
+const dictTypeFormRules = {
+  code: [
+    {
+      required: true,
+      message: "请输入编码",
+      trigger: "blur",
+    },
+    {
+      min: 1,
+      max: 100,
+      message: "长度在 1 到 100 个字符",
+      trigger: "blur",
+    },
+  ],
+  labelDefault: [
+    {
+      required: true,
+      message: "请输入字典值名称",
+      trigger: "blur",
+    },
+  ],
+};
+const dictAction = ref("create");
+function handleConfirmDict() {
+  // 拼接
+  dictTypeForm.value.code =
+    currentTreeNode.value.code + "_" + dictTypeForm.value.value;
+  dictTypeForm.value.labelZhCh = dictTypeForm.value.labelDefault;
+  dictTypeForm.value.labelEnUs = dictTypeForm.value.value;
+  if (dictAction.value === "create") {
+    addDictValue(dictTypeForm.value).then(() => {
+      handleSearch();
+      dialogVisible.value = false;
+    });
+  }
+  if (dictAction.value === "update") {
+    putDictValue(dictTypeForm.value.id, dictTypeForm.value).then(() => {
+      handleSearch();
+      dialogVisible.value = false;
+    });
+  }
+}
+function handleAddDict() {
+  dictAction.value = "create";
+  dictTypeForm.value = { ...aDictValue };
+  dictTypeForm.value.typeId = currentTreeNode.value.id;
+  dialogVisible.value = true;
+}
+function handleUpdateDict(row) {
+  dictAction.value = "update";
+  dictTypeForm.value = { ...row };
+  dialogVisible.value = true;
+}
+function handleDeleteDict(row) {
   MessageConfirm("此操作将永久删除, 是否继续?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    const params = { departId: currentTreeNode.value.id, userId: row.id };
-    deleteUsersDepart(params).then(() => {
+    delDictValue(row.id).then(() => {
       MessageSuccess("删除成功");
       handleSearch();
     });
-  });
-}
-
-const formInline = reactive({
-  page: 1,
-  limit: 10,
-  name: "",
-  departmentKey: "",
-});
-const total = ref(0);
-
-const tableDataUser = ref([]);
-
-function getListUser() {
-  getUsers(formInline).then((res) => {
-    tableDataUser.value = res.data.rows.map((item) => {
-      item.departmentInfo = JSON.parse(item.departId);
-      item.departName = item.departmentInfo.name;
-      item.departId = item.departmentInfo.id;
-      return item;
-    });
-    total.value = res.data.total;
-  });
-}
-
-const multipleSelection = ref([]);
-
-function handleSelectionChange(val) {
-  multipleSelection.value = val;
-}
-
-function handleAddUser() {
-  const params = {
-    departId: currentTreeNode.value.id,
-    userIds: multipleSelection.value
-      .map((item) => item.id)
-      .filter((id) => {
-        // 只保留当前部门下面不存在的id
-        return tableData.value.findIndex((item) => item.id === id) === -1;
-      })
-      .join(","),
-  };
-  addUsersDepart(params).then(() => {
-    MessageSuccess("保存成功");
-    dialogVisible.value = false;
-    handleSearch();
   });
 }
 </script>
@@ -233,7 +236,7 @@ function handleAddUser() {
       <el-card class="box-card">
         <template #header>
           <div class="d-flex justify-content-between align-items-center">
-            <span>组织架构</span>
+            <span>字典KEY</span>
             <el-button
               class="button"
               size="medium"
@@ -297,7 +300,7 @@ function handleAddUser() {
       <el-card class="box-card">
         <template #header>
           <div class="d-flex justify-content-between align-items-center">
-            <span class="align-middle">用户管理</span>
+            <span class="align-middle">字典值</span>
           </div>
         </template>
         <div class="user-container">
@@ -306,7 +309,7 @@ function handleAddUser() {
             v-model="name"
             clearable
             style="width: 200px"
-            placeholder="账户"
+            placeholder="名称"
           ></el-input>
           <el-button
             class="ms-2"
@@ -316,7 +319,7 @@ function handleAddUser() {
           >
             搜索
           </el-button>
-          <el-button @click="handleAdd" size="medium" type="primary">
+          <el-button @click="handleAddDict" size="medium" type="primary">
             添加
           </el-button>
           <el-table
@@ -331,22 +334,25 @@ function handleAddUser() {
           >
             <el-table-column
               align="center"
-              prop="name"
-              label="姓名"
+              prop="code"
+              label="编码"
+              width="220px"
             ></el-table-column>
             <el-table-column
               align="center"
-              prop="username"
-              label="账户"
+              prop="labelDefault"
+              label="名称"
+              width="150px"
             ></el-table-column>
             <el-table-column
               align="center"
-              prop="sex"
-              label="性别"
+              prop="orderNum"
+              label="排序"
+              width="80px"
             ></el-table-column>
             <el-table-column
               align="center"
-              prop="description"
+              prop="remark"
               label="备注"
             ></el-table-column>
             <el-table-column
@@ -357,7 +363,14 @@ function handleAddUser() {
             >
               <template #default="{ row }">
                 <el-button
-                  @click="handleDelete(row)"
+                  @click="handleUpdateDict(row)"
+                  type="text"
+                  size="small"
+                >
+                  <i class="el-icon-edit"></i>
+                </el-button>
+                <el-button
+                  @click="handleDeleteDict(row)"
                   size="small"
                   type="text"
                   style="color: red"
@@ -372,80 +385,42 @@ function handleAddUser() {
     </div>
 
     <el-dialog
-      title="用户"
+      title="字典值"
       top="50px"
       v-model="dialogVisible"
       width="1000px"
       :close-on-click-modal="false"
     >
-      <div>
-        <el-input
-          @keyup.enter="getListUser"
-          v-model="formInline.name"
-          clearable
-          style="width: 200px"
-          placeholder="账户"
-        ></el-input>
-        <el-button
-          class="ms-3"
-          @click="getListUser"
-          size="medium"
-          type="primary"
-        >
-          搜索
-        </el-button>
-        <el-table
-          class="mt-3"
-          :data="tableDataUser"
-          border
-          highlight-current-row
-          :header-cell-style="{
-            background: '#eef1f6',
-            color: '#606266',
-          }"
-          max-height="600"
-          @selection-change="handleSelectionChange"
-        >
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column
-            align="center"
-            prop="name"
-            label="姓名"
-          ></el-table-column>
-          <el-table-column
-            align="center"
-            prop="username"
-            label="账户"
-          ></el-table-column>
-          <el-table-column
-            align="center"
-            prop="sex"
-            label="性别"
-          ></el-table-column>
-          <el-table-column
-            align="center"
-            prop="description"
-            label="备注"
-          ></el-table-column>
-        </el-table>
-
-        <Pagination
-          :total="total"
-          v-model:currentPage="formInline.page"
-          v-model:pageSize="formInline.limit"
-          @pagination="getListUser"
-        />
-      </div>
+      <el-form
+        :model="dictTypeForm"
+        :rules="dictTypeFormRules"
+        label-width="100px"
+      >
+        <el-form-item label="编码" prop="code">
+          <el-input v-model="dictTypeForm.value">
+            <template #prepend>{{ currentTreeNode.code + "_" }}</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="名称" prop="labelDefault">
+          <el-input v-model="dictTypeForm.labelDefault"></el-input>
+        </el-form-item>
+        <el-form-item label="排序" prop="orderNum">
+          <el-input v-model="dictTypeForm.orderNum"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input type="textarea" v-model="dictTypeForm.remark"></el-input>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleAddUser">添加</el-button>
+          <el-button type="primary" @click="handleConfirmDict">确定</el-button>
         </span>
       </template>
     </el-dialog>
 
     <el-dialog
-      title="部门"
+      title="字典KEY"
       top="150px"
       v-model="dialogVisibleDepart"
       width="1000px"
@@ -461,30 +436,10 @@ function handleAddUser() {
           class="demo-ruleForm"
         >
           <el-form-item label="编码" prop="code">
-            <el-input
-              v-model="mainTreeForm.code"
-              placeholder="请输入编码"
-            ></el-input>
+            <el-input v-model="mainTreeForm.code"></el-input>
           </el-form-item>
-          <el-form-item label="部门名" prop="name">
-            <el-input
-              v-model="mainTreeForm.name"
-              placeholder="请输入部门名"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="部门类型">
-            <el-select
-              v-model="mainTreeForm.type"
-              class="filter-item"
-              placeholder="请选择部门类型"
-            >
-              <el-option
-                v-for="item in departTypeOptions"
-                :key="item.id"
-                :label="item.labelDefault"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="mainTreeForm.name"></el-input>
           </el-form-item>
         </el-form>
       </div>

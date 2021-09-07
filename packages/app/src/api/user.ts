@@ -128,10 +128,3 @@ export function bindingCard(data) {
     data,
   });
 }
-
-export function getDictValue(code) {
-  return request({
-    url: "/basic/dict/dictValue/type/" + code,
-    method: "get",
-  });
-}

@@ -62,6 +62,33 @@ const asyncRoutes: Array<RouteRecordRaw> = [
           title: "部门管理",
         },
       },
+      {
+        path: "menuManager1",
+        name: "menuManager1",
+        component: () =>
+          import("../views/pmsPc/baseManager/menuManager1/index.vue"),
+        meta: {
+          title: "菜单管理",
+        },
+      },
+      {
+        path: "groupManager",
+        name: "groupManager",
+        component: () =>
+          import("../views/pmsPc/baseManager/groupManager/index.vue"),
+        meta: {
+          title: "菜单分配",
+        },
+      },
+      {
+        path: "dictManager",
+        name: "dictManager",
+        component: () =>
+          import("../views/pmsPc/baseManager/dictManager/index.vue"),
+        meta: {
+          title: "数据字典",
+        },
+      },
     ],
   },
   // will match everything and put it under `$route.params.pathMatch`
