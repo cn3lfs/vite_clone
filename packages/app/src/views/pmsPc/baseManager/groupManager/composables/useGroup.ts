@@ -92,6 +92,10 @@ export function useGroup(emitter: Emitter<any>) {
       dialogVisibleDepart.value = false;
     });
   }
+  // 分配权限
+  function onAssign(node, data) {
+    emitter.emit("assign:showDialog");
+  }
   function onEdit(node, data) {
     departAction.value = "update";
     dialogVisibleDepart.value = true;
@@ -163,6 +167,7 @@ export function useGroup(emitter: Emitter<any>) {
     // CRUD
     departAction,
     onInit,
+    onAssign,
     onEdit,
     onAppend,
     onRemove,

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Member from "./Member.vue";
+import Assign from "./Assign.vue";
 import { useGroup } from "./composables/useGroup";
 import { useEmitter } from "@/utils/useEmitter";
 const emitter = useEmitter();
@@ -32,6 +33,7 @@ const {
   // CRUD
   departAction,
   onInit,
+  onAssign,
   onEdit,
   onAppend,
   onRemove,
@@ -89,6 +91,9 @@ const {
                   <span>{{ node.label }}</span>
                 </span>
                 <span>
+                  <el-button type="text" @click="onAssign(node, data)">
+                    <i class="el-icon-s-custom" />
+                  </el-button>
                   <el-button type="text" @click="onEdit(node, data)">
                     <i class="el-icon-edit" />
                   </el-button>
@@ -146,6 +151,8 @@ const {
         </span>
       </template>
     </el-dialog>
+
+    <Assign :currentTreeNode="currentTreeNode" />
   </div>
 </template>
 

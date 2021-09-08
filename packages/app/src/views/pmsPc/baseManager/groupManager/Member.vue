@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import User from "./User.vue";
 import { useMember } from "./composables/useMember";
-import { useGroup } from "./composables/useGroup";
 import { useEmitter } from "@/utils/useEmitter";
 
 const props = defineProps({
